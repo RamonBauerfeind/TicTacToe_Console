@@ -25,6 +25,7 @@ namespace TicTacToe_Console_C_Sharp
 
             //Spiel
             string[] board = new string[9] {" ", " ", " ", " ", " ", " ", " ", " ", " "};
+            //fff
             int field;
             bool finish = false;
 
