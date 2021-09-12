@@ -27,15 +27,16 @@ namespace TicTacToe_Console_C_Sharp
             string[] board = new string[9] {" ", " ", " ", " ", " ", " ", " ", " ", " "};
             int field;
             bool finish = false;
+            bool gameOver = false;
 
             //bis Abbruchparameter erfüllt wird
-            while (finish == false)
+            while (finish == false && gameOver == false)
             {
                 bool onlyNumbersPlayer1 = false;
                 bool onlyNumbersPlayer2 = false;
 
-                //Eingabe Spieler 1 nur int und 1-9 und kein Sieger
-                while (onlyNumbersPlayer1 == false && finish == false)
+                //Eingabe Spieler 1 nur int und 1-9 und kein Sieger und noch freie Felder vorhanden
+                while (onlyNumbersPlayer1 == false && finish == false && gameOver == false)
                 {
                     Console.WriteLine("Where do you want to place your symbol, {0}? (1 - 9)", player1[0]);
                     try
@@ -65,6 +66,12 @@ namespace TicTacToe_Console_C_Sharp
                                 {
                                     Console.WriteLine("Congratulations!!! You won, {0}!!!", player1[0]);
                                 }
+                                gameOver = GameOver(board);
+                                //alle Felder belegt?
+                                if(gameOver == true)
+                                {
+                                    Console.WriteLine("Draw!!! Game Over!!!");
+                                }
                             }
                             else
                             {
@@ -84,8 +91,8 @@ namespace TicTacToe_Console_C_Sharp
                     }
                 }
 
-                //Eingabe Spieler 2 nur int und 1-9 und kein Sieger
-                while (onlyNumbersPlayer2 == false && finish == false)
+                //Eingabe Spieler 2 nur int und 1-9 und kein Sieger und noch freie Felder vorhanden
+                while (onlyNumbersPlayer2 == false && finish == false && gameOver == false)
                 {
                     Console.WriteLine("Where do you want to place your symbol, {0}? (1 - 9)", player2[0]);
                     try
@@ -114,6 +121,12 @@ namespace TicTacToe_Console_C_Sharp
                                 if (finish == true)
                                 {
                                     Console.WriteLine("Congratulations!!! You won, {0}!!!", player2[0]);
+                                }
+                                //alle Felder belegt?
+                                gameOver = GameOver(board);
+                                if (gameOver == true)
+                                {
+                                    Console.WriteLine("Draw!!! Game Over!!!");
                                 }
                             }
                             else
@@ -170,7 +183,7 @@ namespace TicTacToe_Console_C_Sharp
             {
                 finish = true;
             }
-            if ((board[1] == board[4] && board[1] == board[4]) && board[1] != " ")
+            if ((board[1] == board[4] && board[1] == board[7]) && board[1] != " ")
             {
                 finish = true;
             }
@@ -189,6 +202,36 @@ namespace TicTacToe_Console_C_Sharp
             }
 
             return finish;
+        }
+        //Prüfung ob alle Felder belgt sind -> GameOver
+        public static bool GameOver(string[] board)
+        {
+            bool end = true;
+            bool[] gameOver = new bool[9];
+            int count = 0;
+
+            foreach(string a in board)
+            {
+                //Prüfung ob Feld leer ist
+                if(a == " ")
+                {
+                    gameOver[count] = false;
+                }
+                else 
+                {
+                    gameOver[count] = true;
+                }
+                count++;
+            }
+            //wenn ein freies Felf vorhanden ist, ist das Spiel noch nicht beendet
+            foreach(bool g in gameOver)
+            {
+                if(g == false)
+                {
+                    end = false;
+                }
+            }
+            return end;
         }
     }
 }
