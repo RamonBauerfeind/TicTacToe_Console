@@ -25,7 +25,6 @@ namespace TicTacToe_Console_C_Sharp
 
             //Spiel
             string[] board = new string[9] {" ", " ", " ", " ", " ", " ", " ", " ", " "};
-            //fff
             int field;
             bool finish = false;
 
@@ -40,16 +39,32 @@ namespace TicTacToe_Console_C_Sharp
                 {
                     Console.WriteLine("Where do you want to place your symbol, {0}? (1 - 9)", player1[0]);
                     try
-                    {
+                    {   
+                        //bool welcher anzeigt, ob das entsprechende Feld schon belegt ist
+                        bool freeField = true;
+                        //Eingabe einlesen
                         field = Convert.ToInt32(Console.ReadLine());
+                        //String für Übergabe an Funktion
+                        string strField = Convert.ToString(field);
+                        //Prüfung, ob Feld bereits belegt ist
+                        freeField = CheckLines(board, strField);
                         //wenn Eingabe == 1 - 9
                         if (field >= 1 && field <= 10)
                         {
-                            board[field - 1] = player1[1];
-                            onlyNumbersPlayer1 = true;
-                            Console.WriteLine(board[0] + " | " + board[1] + " | " + board[2]);
-                            Console.WriteLine(board[3] + " | " + board[4] + " | " + board[5]);
-                            Console.WriteLine(board[6] + " | " + board[7] + " | " + board[8]);
+                            //wenn das Feld noch nicht belegt ist
+                            if (freeField == true)
+                            {
+                                board[field - 1] = player1[1];
+                                onlyNumbersPlayer1 = true;
+                                Console.WriteLine(board[0] + " | " + board[1] + " | " + board[2]);
+                                Console.WriteLine(board[3] + " | " + board[4] + " | " + board[5]);
+                                Console.WriteLine(board[6] + " | " + board[7] + " | " + board[8]);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Please choose a free field!");
+                                continue;
+                            }
                         }
                         else
                         {
@@ -69,15 +84,31 @@ namespace TicTacToe_Console_C_Sharp
                     Console.WriteLine("Where do you want to place your symbol, {0}? (1 - 9)", player2[0]);
                     try
                     {
+                        //bool welcher anzeigt, ob das entsprechende Feld schon belegt ist
+                        bool freeField = true;
+                        //Eingabe einlesen
                         field = Convert.ToInt32(Console.ReadLine());
+                        //String für Übergabe an Funktion
+                        string strField = Convert.ToString(field);
+                        //Prüfung, ob Feld bereits belegt ist
+                        freeField = CheckLines(board, strField);
                         //wenn Eingabe == 1 - 9
-                        if (field >= 1 && field <= 10)
+                        if ((field >= 1 && field <= 10) && freeField == true)
                         {
-                            board[field - 1] = player2[1];
-                            onlyNumbersPlayer2 = true;
-                            Console.WriteLine(board[0] + " | " + board[1] + " | " + board[2]);
-                            Console.WriteLine(board[3] + " | " + board[4] + " | " + board[5]);
-                            Console.WriteLine(board[6] + " | " + board[7] + " | " + board[8]);
+                            //wenn das Feld noch nicht belegt ist
+                            if (freeField == true)
+                            {
+                                board[field - 1] = player2[1];
+                                onlyNumbersPlayer2 = true;
+                                Console.WriteLine(board[0] + " | " + board[1] + " | " + board[2]);
+                                Console.WriteLine(board[3] + " | " + board[4] + " | " + board[5]);
+                                Console.WriteLine(board[6] + " | " + board[7] + " | " + board[8]);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Please choose a free field!");
+                                continue;
+                            }
                         }
                         else
                         {
@@ -90,9 +121,20 @@ namespace TicTacToe_Console_C_Sharp
                         Console.WriteLine("Please use only numbers!");
                     }
                 }
-
                 Console.ReadKey();
             }
         }
+        //Prüfung, ob das gewählte Feld noch frei ist
+        public static bool CheckLines(string[] board, string field)
+        {
+            bool freeField = true;
+            int intField = Convert.ToInt32(field);
+            if(board[intField - 1] != " ")
+            {
+                freeField = false;
+            }
+            return freeField;
+        }
+
     }
 }
