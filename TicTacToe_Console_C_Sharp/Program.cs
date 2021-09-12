@@ -34,8 +34,8 @@ namespace TicTacToe_Console_C_Sharp
                 bool onlyNumbersPlayer1 = false;
                 bool onlyNumbersPlayer2 = false;
 
-                //Eingabe Spieler 1 nur int und 1-9
-                while (onlyNumbersPlayer1 == false)
+                //Eingabe Spieler 1 nur int und 1-9 und kein Sieger
+                while (onlyNumbersPlayer1 == false && finish == false)
                 {
                     Console.WriteLine("Where do you want to place your symbol, {0}? (1 - 9)", player1[0]);
                     try
@@ -46,11 +46,11 @@ namespace TicTacToe_Console_C_Sharp
                         field = Convert.ToInt32(Console.ReadLine());
                         //String für Übergabe an Funktion
                         string strField = Convert.ToString(field);
-                        //Prüfung, ob Feld bereits belegt ist
-                        freeField = CheckLines(board, strField);
                         //wenn Eingabe == 1 - 9
-                        if (field >= 1 && field <= 10)
+                        if (field >= 1 && field < 10)
                         {
+                            //Prüfung, ob Feld bereits belegt ist
+                            freeField = CheckLines(board, strField);
                             //wenn das Feld noch nicht belegt ist
                             if (freeField == true)
                             {
@@ -59,6 +59,12 @@ namespace TicTacToe_Console_C_Sharp
                                 Console.WriteLine(board[0] + " | " + board[1] + " | " + board[2]);
                                 Console.WriteLine(board[3] + " | " + board[4] + " | " + board[5]);
                                 Console.WriteLine(board[6] + " | " + board[7] + " | " + board[8]);
+                                //Prüfung, ob es einen Sieger gibt
+                                finish = Finish(board);
+                                if(finish == true)
+                                {
+                                    Console.WriteLine("Congratulations!!! You won, {0}!!!", player1[0]);
+                                }
                             }
                             else
                             {
@@ -78,8 +84,8 @@ namespace TicTacToe_Console_C_Sharp
                     }
                 }
 
-                //Eingabe Spieler 2 nur int und 1-9
-                while (onlyNumbersPlayer2 == false)
+                //Eingabe Spieler 2 nur int und 1-9 und kein Sieger
+                while (onlyNumbersPlayer2 == false && finish == false)
                 {
                     Console.WriteLine("Where do you want to place your symbol, {0}? (1 - 9)", player2[0]);
                     try
@@ -90,11 +96,11 @@ namespace TicTacToe_Console_C_Sharp
                         field = Convert.ToInt32(Console.ReadLine());
                         //String für Übergabe an Funktion
                         string strField = Convert.ToString(field);
-                        //Prüfung, ob Feld bereits belegt ist
-                        freeField = CheckLines(board, strField);
                         //wenn Eingabe == 1 - 9
-                        if ((field >= 1 && field <= 10) && freeField == true)
+                        if ((field >= 1 && field < 10) && freeField == true)
                         {
+                            //Prüfung, ob Feld bereits belegt ist
+                            freeField = CheckLines(board, strField);
                             //wenn das Feld noch nicht belegt ist
                             if (freeField == true)
                             {
@@ -103,6 +109,12 @@ namespace TicTacToe_Console_C_Sharp
                                 Console.WriteLine(board[0] + " | " + board[1] + " | " + board[2]);
                                 Console.WriteLine(board[3] + " | " + board[4] + " | " + board[5]);
                                 Console.WriteLine(board[6] + " | " + board[7] + " | " + board[8]);
+                                //Prüfung, ob es einen Sieger gibt
+                                finish = Finish(board);
+                                if (finish == true)
+                                {
+                                    Console.WriteLine("Congratulations!!! You won, {0}!!!", player2[0]);
+                                }
                             }
                             else
                             {
@@ -121,8 +133,8 @@ namespace TicTacToe_Console_C_Sharp
                         Console.WriteLine("Please use only numbers!");
                     }
                 }
-                Console.ReadKey();
             }
+            Console.ReadKey();
         }
         //Prüfung, ob das gewählte Feld noch frei ist
         public static bool CheckLines(string[] board, string field)
@@ -135,6 +147,48 @@ namespace TicTacToe_Console_C_Sharp
             }
             return freeField;
         }
+        //Prüfung, ob es einen Sieger gibt
+        public static bool Finish(string[] board)
+        {
+            bool finish = false;
 
+            //Prüfungen horizontal
+            if((board[0] == board[1] && board[0] == board[2]) && board[0] != " ")
+            {
+                finish = true;
+            }
+            if((board[3] == board[4] && board[3] == board[5]) && board[3] != " ")
+            {
+                finish = true;
+            }
+            if ((board[6] == board[7] && board[6] == board[8]) && board[6] != " ")
+            {
+                finish = true;
+            }
+            //Prüfungen vertikal
+            if ((board[0] == board[3] && board[0] == board[6]) && board[0] != " ")
+            {
+                finish = true;
+            }
+            if ((board[1] == board[4] && board[1] == board[4]) && board[1] != " ")
+            {
+                finish = true;
+            }
+            if ((board[2] == board[5] && board[2] == board[8]) && board[2] != " ")
+            {
+                finish = true;
+            }
+            //Prüfungen diagonal
+            if ((board[0] == board[4] && board[0] == board[8]) && board[0] != " ")
+            {
+                finish = true;
+            }
+            if ((board[2] == board[4] && board[2] == board[6]) && board[2] != " ")
+            {
+                finish = true;
+            }
+
+            return finish;
+        }
     }
 }
