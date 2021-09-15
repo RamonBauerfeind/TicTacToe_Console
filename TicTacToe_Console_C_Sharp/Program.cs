@@ -16,12 +16,10 @@ namespace TicTacToe_Console_C_Sharp
 
             Console.WriteLine("What's your name, Player One?");
             player1[0] = Console.ReadLine();
-            Console.WriteLine("Symbol Player One: ");
-            player1[1] = Console.ReadLine();
+            player1[1] = player1[0].Substring(0, 1);
             Console.WriteLine("What's your name, Player Two?");
             player2[0] = Console.ReadLine();
-            Console.WriteLine("Symbol Player Two: ");
-            player2[1] = Console.ReadLine();
+            player2[1] = player2[0].Substring(0, 1);
 
             //Spiel
             string[] board = new string[9] {" ", " ", " ", " ", " ", " ", " ", " ", " "};
